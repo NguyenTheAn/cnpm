@@ -27,7 +27,7 @@ class LogIn(tk.Frame):
         btn1 = tk.Button(self, text='Log In', width=20, height=2)
         btn1.grid(row=2, column=1, sticky='E')
         # Buttons
-        btn2 = tk.Button(self, text='Sign Up', width=20, height=2)
+        btn2 = tk.Button(self, text='Sign Up', width=20, height=2, command = lambda : controller.show_frame("SignUp"))
         btn2.grid(row=2, column=0, sticky='W')
     def __name__(self):
         return "LogIn"
