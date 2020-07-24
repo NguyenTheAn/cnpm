@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from Controller.SignupController import SignupController
+from Model.Account import Account
 
 class SignUp(tk.Frame):
 
@@ -92,24 +94,26 @@ class SignUp(tk.Frame):
     def check (self):
         check = False
         if len(self.entry1.get()) == 0:
-            self.entry1 = tk.Entry(self, textvar=self.namevar, background = 'Yellow')
-            self.entry1.grid(row=0, column=1)
+            self.entry1.config({"background": 'Yellow'})
             check = True
         if len(self.entry3.get()) == 0:
-            self.entry3 = tk.Entry(self, textvar=self.emailvar, background = 'Yellow')
-            self.entry3.grid(row=5, column=1)
+            self.entry3.config({"background": 'Yellow'})
             check = True
         if len(self.entry4.get()) == 0:
-            self.entry4 = tk.Entry(self, textvar=self.usernamevar, background = 'Yellow')
-            self.entry4.grid(row=6, column=1)
+            self.entry4.config({"background": 'Yellow'})
             check = True
         if len(self.entry5.get()) == 0:
-            self.entry5 = tk.Entry(self, show='*', textvar=self.passwordvar, background = 'Yellow')
-            self.entry5.grid(row=7, column=1)
+            self.entry5.config({"background": 'Yellow'})
             check = True
         if check == False:
-            account_file = open('./Data/account.txt', 'a')
-            account_file.write(f'{self.entry4.get()} {self.entry5.get()} {self.combo6.get()}\n')
-            account_file.close()
-            messagebox.showinfo(title='Registry', message='Successfull registry')
-            self.controller.show_frame('LogIn')
+            account = Account()
+            account.set(self.entry4.get(), self.entry5.get(), self.combo6.get())
+            signupController = SignupController()
+            if signupController.findExistedAccount(account) == True:
+                messagebox.showerror("Signup", message = "username is existed, please change username")
+            else:
+                account_file = open('./Data/account.txt', 'a')
+                account_file.write(f'{self.entry4.get()} {self.entry5.get()} {self.combo6.get()}\n')
+                account_file.close()
+                messagebox.showinfo(title='Registry', message='Successfull registry')
+                self.controller.show_frame('LogIn')
