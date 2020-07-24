@@ -18,5 +18,5 @@ class ManagerScr(tk.Frame):
         logout_bt.grid(row=3, column=0, sticky='E')
         create_event_bt = tk.Button(self, text='Create Event', width=20, height=2)
         create_event_bt.grid(row=3, column=2, sticky='E')
-        diemdanh_bt = tk.Button(self, text='Log Out', width=20, height=2)
+        diemdanh_bt = tk.Button(self, text='Điểm danh', width=20, height=2)
         diemdanh_bt.grid(row=3, column=0, sticky='E')
