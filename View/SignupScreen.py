@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 class SignUp(tk.Frame):
 
@@ -21,14 +22,17 @@ class SignUp(tk.Frame):
         label4 = tk.Label(self, width=40, height=2, text='DOB  :')
         label4.grid(row=3, column=0, sticky="W")
 
+        label8 = tk.Label(self, width=40, height=2, text='Role  :')
+        label8.grid(row=4, column=0, sticky="W")
+
         label5 = tk.Label(self, width=40, height=2, text='Email  :')
-        label5.grid(row=4, column=0, sticky="W")
+        label5.grid(row=5, column=0, sticky="W")
 
         label6 = tk.Label(self, width=40, height=2, text='Username  :')
-        label6.grid(row=5, column=0, sticky="W")
+        label6.grid(row=6, column=0, sticky="W")
 
         label7 = tk.Label(self, width=40, height=2, text='Password  :')
-        label7.grid(row=6, column=0, sticky="W")
+        label7.grid(row=7, column=0, sticky="W")
 
         # entry
 
@@ -38,8 +42,8 @@ class SignUp(tk.Frame):
         self.usernamevar = tk.StringVar()
         self.passwordvar = tk.StringVar()
 
-        entry1 = tk.Entry(self, textvar=self.namevar)
-        entry1.grid(row=0, column=1)
+        self.entry1 = tk.Entry(self, textvar=self.namevar)
+        self.entry1.grid(row=0, column=1)
 
         self.combo1 = ttk.Combobox(self, values=list(range(1, 100)))
         self.combo1.grid(row=1, column=1)
@@ -61,22 +65,51 @@ class SignUp(tk.Frame):
         self.combo5.grid(row=3, column=3)
         self.combo5.current(0)
 
-        entry3 = tk.Entry(self, textvar=self.emailvar)
-        entry3.grid(row=4, column=1)
+        self.combo6 = ttk.Combobox(self, values=['Manager', 'Attendance'])
+        self.combo6.grid(row=4, column=1)
+        self.combo6.current(0)
 
-        entry4 = tk.Entry(self, textvar=self.usernamevar)
-        entry4.grid(row=5, column=1)
+        self.entry3 = tk.Entry(self, textvar=self.emailvar)
+        self.entry3.grid(row=5, column=1)
 
-        entry5 = tk.Entry(self, show='*', textvar=self.passwordvar)
-        entry5.grid(row=6, column=1)
+        self.entry4 = tk.Entry(self, textvar=self.usernamevar)
+        self.entry4.grid(row=6, column=1)
+
+        self.entry5 = tk.Entry(self, show='*', textvar=self.passwordvar)
+        self.entry5.grid(row=7, column=1)
 
         # button
 
-        btn1 = tk.Button(self, text='Sign Up', width=20, height=2)
-        btn1.grid(row=7, column=1, sticky='E')
+        self.btn1 = tk.Button(self, text='Sign Up', width=20, height=2, command = self.check)
+        self.btn1.grid(row=8, column=1, sticky='E')
 
-        btn2 = tk.Button(self, text='Cancel', width=20, height=2, command = lambda : controller.show_frame("LogIn"))
-        btn2.grid(row=7, column=0)
+        self.btn2 = tk.Button(self, text='Cancel', width=20, height=2, command = lambda : controller.show_frame("LogIn"))
+        self.btn2.grid(row=8, column=0)
 
     def __name__(self):
         return "SignUp"
+
+    def check (self):
+        check = False
+        if len(self.entry1.get()) == 0:
+            self.entry1 = tk.Entry(self, textvar=self.namevar, background = 'Yellow')
+            self.entry1.grid(row=0, column=1)
+            check = True
+        if len(self.entry3.get()) == 0:
+            self.entry3 = tk.Entry(self, textvar=self.emailvar, background = 'Yellow')
+            self.entry3.grid(row=5, column=1)
+            check = True
+        if len(self.entry4.get()) == 0:
+            self.entry4 = tk.Entry(self, textvar=self.usernamevar, background = 'Yellow')
+            self.entry4.grid(row=6, column=1)
+            check = True
+        if len(self.entry5.get()) == 0:
+            self.entry5 = tk.Entry(self, show='*', textvar=self.passwordvar, background = 'Yellow')
+            self.entry5.grid(row=7, column=1)
+            check = True
+        if check == False:
+            account_file = open('./Data/account.txt', 'a')
+            account_file.write(f'{self.entry4.get()} {self.entry5.get()} {self.combo6.get()}\n')
+            account_file.close()
+            messagebox.showinfo(title='Registry', message='Successfull registry')
+            self.controller.show_frame('LogIn')

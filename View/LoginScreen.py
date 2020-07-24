@@ -1,5 +1,8 @@
 import tkinter as tk
-
+from Controller.LoginController import LoginController
+from Model.Account import Account
+from tkinter import ttk
+from tkinter import messagebox
 
 class LogIn(tk.Frame):
 
@@ -16,18 +19,36 @@ class LogIn(tk.Frame):
         label2 = tk.Label(self, width=40, height=2, text='Password  :')
         label2.grid(row=1, column=0, sticky="W")
 
+        label3 = tk.Label(self, width=40, height=2, text='Role  :')
+        label3.grid(row=2, column=0, sticky="W")
+
         # Entries
 
-        entry1 = tk.Entry(self, textvar=self.usernamevar)
-        entry1.grid(row=0, column=1)
+        self.entry1 = tk.Entry(self, textvar=self.usernamevar)
+        self.entry1.grid(row=0, column=1)
 
-        entry2 = tk.Entry(self, show='*', textvar=self.passwordvar)
-        entry2.grid(row=1, column=1)
+        self.entry2 = tk.Entry(self, show='*', textvar=self.passwordvar)
+        self.entry2.grid(row=1, column=1)
 
-        btn1 = tk.Button(self, text='Log In', width=20, height=2)
-        btn1.grid(row=2, column=1, sticky='E')
+        self.combo1 = ttk.Combobox(self, values=['Manager', 'Attendance'])
+        self.combo1.grid(row=2, column=1)
+        self.combo1.current(0)
+
+        btn1 = tk.Button(self, text='Log In', width=20, height=2, command = self.logIn)
+        btn1.grid(row=3, column=1, sticky='E')
         # Buttons
         btn2 = tk.Button(self, text='Sign Up', width=20, height=2, command = lambda : controller.show_frame("SignUp"))
-        btn2.grid(row=2, column=0, sticky='W')
+        btn2.grid(row=3, column=0, sticky='W')
     def __name__(self):
         return "LogIn"
+
+    def logIn(self):
+        controll = LoginController()
+        account = Account()
+        account.set(self.entry1.get(), self.entry2.get(), self.combo1.get())
+        if controll.verify(account) == True:
+            messagebox.showinfo(title='Login', message='Successfull Login')
+        else:
+            messagebox.showerror(title='Login', message="Wrong username or password")
+
+
