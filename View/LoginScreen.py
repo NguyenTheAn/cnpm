@@ -8,6 +8,7 @@ class LogIn(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.controller = controller
         global name
         self.usernamevar = tk.StringVar()
         self.passwordvar = tk.StringVar()
@@ -30,7 +31,7 @@ class LogIn(tk.Frame):
         self.entry2 = tk.Entry(self, show='*', textvar=self.passwordvar)
         self.entry2.grid(row=1, column=1)
 
-        self.combo1 = ttk.Combobox(self, values=['Manager', 'Attendance'])
+        self.combo1 = ttk.Combobox(self, values=['Manager', 'Attendance', 'Admin'])
         self.combo1.grid(row=2, column=1)
         self.combo1.current(0)
 
@@ -39,15 +40,14 @@ class LogIn(tk.Frame):
         # Buttons
         btn2 = tk.Button(self, text='Sign Up', width=20, height=2, command = lambda : controller.show_frame("SignUp"))
         btn2.grid(row=3, column=0, sticky='W')
-    def __name__(self):
-        return "LogIn"
 
     def logIn(self):
         controll = LoginController()
         account = Account()
         account.set(self.entry1.get(), self.entry2.get(), self.combo1.get())
         if controll.verify(account) == True:
-            messagebox.showinfo(title='Login', message='Successfull Login')
+            if account.role == 'Manager':
+                self.controller.show_frame('ManagerScr')
         else:
             messagebox.showerror(title='Login', message="Wrong username or password")
 

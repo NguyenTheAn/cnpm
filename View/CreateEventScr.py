@@ -1,13 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from Controller.EventController import EventController
 
 
 class CreateEvent(tk.Frame):
 
-    def __init__(self, parent):
+    def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
-        # self.controller = controller
+        self.controller = controller
+        global name
 
         # Labels
 
@@ -52,7 +54,7 @@ class CreateEvent(tk.Frame):
         self.btn1 = tk.Button(self, text='Create', width=20, height=2, command = self.check)
         self.btn1.grid(row=8, column=1, sticky='E')
 
-        self.btn2 = tk.Button(self, text='Cancel', width=20, height=2)
+        self.btn2 = tk.Button(self, text='Cancel', width=20, height=2, command = lambda : self.controller.show_frame("ManagerScr"))
         self.btn2.grid(row=8, column=0)
 
     def __name__(self):
@@ -64,18 +66,14 @@ class CreateEvent(tk.Frame):
             self.entry1.config({"background": 'Yellow'})
             check = True
         if len(self.entry2.get()) == 0:
-            self.entry3.config({"background": 'Yellow'})
+            self.entry2.config({"background": 'Yellow'})
             check = True
-        # if check == False:
-        #     account = Account()
-        #     account.set(self.entry4.get(), self.entry5.get(), self.combo6.get())
-        #     signupController = SignupController()
-        #     if signupController.findExistedAccount(account) == True:
-        #         messagebox.showerror("Signup", message = "username is existed, please change username")
-        #     else:
-        #         account_file = open('./Data/account.txt', 'a')
-        #         account_file.write(f'{self.entry4.get()} {self.entry5.get()} {self.combo6.get()}\n')
-        #         account_file.close()
-        #         messagebox.showinfo(title='Registry', message='Successfull registry')
-        #         self.controller.show_frame('LogIn')
-    self.mainloop()
+
+        if check == False:
+            eventController = EventController()
+            eventController.saveToDb(
+                self.entry1.get(),
+                self.entry2.get(),
+                f"{self.combo3.get()}/{self.combo4.get()}/{self.combo5.get()}",
+                f"{self.combo6.get()}/{self.combo7.get()}/{self.combo8.get()}"
+            )

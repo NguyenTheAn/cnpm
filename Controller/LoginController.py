@@ -1,4 +1,4 @@
-from Controller.DAO import DAO
+from Controller.DAOAccount import DAO
 
 class LoginController():
     def __init__(self):

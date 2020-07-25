@@ -1,6 +1,8 @@
 import tkinter as tk
 from View.LoginScreen import LogIn
 from View.SignupScreen import SignUp
+from View.ManagerScreen import ManagerScr
+from View.CreateEventScr import CreateEvent
 
 class MainWindow(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -10,9 +12,12 @@ class MainWindow(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        self.frames["LogIn"] = LogIn(container, self)
-        self.frames["SignUp"] = SignUp(container, self)
-        self.show_frame('LogIn')
+        for F in (LogIn, SignUp, ManagerScr, CreateEvent):
+            page_name = F.__name__
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+        self.show_frame("LogIn")
     def show_frame(self, name):
         frame = self.frames[name]
         frame.grid(row=0, column=0, sticky="nsew")

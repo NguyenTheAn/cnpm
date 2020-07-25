@@ -1,4 +1,5 @@
-from Controller.DAO import DAO
+from Controller.DAOAccount import DAO
+from Model.Account import Account
 
 class SignupController():
     def __init__(self):
@@ -10,3 +11,8 @@ class SignupController():
             if account.username == verify_account.username:
                 return True
         return False
+
+    def saveToDb(self, username, password, role):
+        account = Account()
+        account.set(username, password, role)
+        self.dao.write(account)

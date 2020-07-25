@@ -9,7 +9,7 @@ class SignUp(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-
+        global name
         # Labels
 
         label1 = tk.Label(self, width=40, height=2, text='Name  :')
@@ -67,7 +67,7 @@ class SignUp(tk.Frame):
         self.combo5.grid(row=3, column=3)
         self.combo5.current(0)
 
-        self.combo6 = ttk.Combobox(self, values=['Manager', 'Attendance'])
+        self.combo6 = ttk.Combobox(self, values=['Manager', 'Attendance', 'admin'])
         self.combo6.grid(row=4, column=1)
         self.combo6.current(0)
 
@@ -85,11 +85,8 @@ class SignUp(tk.Frame):
         self.btn1 = tk.Button(self, text='Sign Up', width=20, height=2, command = self.check)
         self.btn1.grid(row=8, column=1, sticky='E')
 
-        self.btn2 = tk.Button(self, text='Cancel', width=20, height=2, command = lambda : controller.show_frame("LogIn"))
+        self.btn2 = tk.Button(self, text='Cancel', width=20, height=2, command = lambda : self.controller.show_frame("LogIn"))
         self.btn2.grid(row=8, column=0)
-
-    def __name__(self):
-        return "SignUp"
 
     def check (self):
         check = False
@@ -112,8 +109,6 @@ class SignUp(tk.Frame):
             if signupController.findExistedAccount(account) == True:
                 messagebox.showerror("Signup", message = "username is existed, please change username")
             else:
-                account_file = open('./Data/account.txt', 'a')
-                account_file.write(f'{self.entry4.get()} {self.entry5.get()} {self.combo6.get()}\n')
-                account_file.close()
+                signupController.saveToDb(self.entry4.get(), self.entry5.get(), self.combo6.get())
                 messagebox.showinfo(title='Registry', message='Successfull registry')
                 self.controller.show_frame('LogIn')
