@@ -9,6 +9,7 @@ class CreateEvent(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        self.eventController = EventController()
         global name
 
         # Labels
@@ -77,3 +78,4 @@ class CreateEvent(tk.Frame):
                 f"{self.combo3.get()}/{self.combo4.get()}/{self.combo5.get()}",
                 f"{self.combo6.get()}/{self.combo7.get()}/{self.combo8.get()}"
             )
+            messagebox.showinfo(title='Create Event', message='Create event successfull')

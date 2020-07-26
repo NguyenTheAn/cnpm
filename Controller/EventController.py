@@ -5,6 +5,9 @@ class EventController():
     def __init__(self):
         self.dao = DAO("./Data/Event.txt")
 
+    def readEventfromdb(self):
+        return self.dao.readEventList()
+
     def saveToDb(self, name, description, startDate, endDate):
         account = Event(name, description, startDate, endDate)
         self.dao.write(account)

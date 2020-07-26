@@ -12,7 +12,5 @@ class SignupController():
                 return True
         return False
 
-    def saveToDb(self, username, password, role):
-        account = Account()
-        account.set(username, password, role)
+    def saveToDb(self, account):
         self.dao.write(account)

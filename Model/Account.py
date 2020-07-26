@@ -1,6 +1,9 @@
+import random
+
 
 class Account():
     def __init__(self):
+        self.ID = random.randint(100000, 1000000)
         self.username = ''
         self.password = ''
         self.role = ''

@@ -46,8 +46,14 @@ class LogIn(tk.Frame):
         account = Account()
         account.set(self.entry1.get(), self.entry2.get(), self.combo1.get())
         if controll.verify(account) == True:
+            file = open("./Data/Session.txt", 'w')
+            file.write(f'{account.ID} {account.username} {account.password} {account.role}\n')
+            file.close()
             if account.role == 'Manager':
                 self.controller.show_frame('ManagerScr')
+
+            if account.role == 'Attendance':
+                self.controller.show_frame('AtendanceMainScreen')
         else:
             messagebox.showerror(title='Login', message="Wrong username or password")
 

@@ -3,6 +3,9 @@ from View.LoginScreen import LogIn
 from View.SignupScreen import SignUp
 from View.ManagerScreen import ManagerScr
 from View.CreateEventScr import CreateEvent
+from View.ListEventScreen import ListEventScreen
+from View.AttendanceMainScreen import AtendanceMainScreen
+from View.SearchScreen import SearchScreen
 
 class MainWindow(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -12,7 +15,7 @@ class MainWindow(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        for F in (LogIn, SignUp, ManagerScr, CreateEvent):
+        for F in (LogIn, SignUp, ManagerScr, CreateEvent, ListEventScreen, AtendanceMainScreen, SearchScreen):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame

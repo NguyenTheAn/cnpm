@@ -109,6 +109,6 @@ class SignUp(tk.Frame):
             if signupController.findExistedAccount(account) == True:
                 messagebox.showerror("Signup", message = "username is existed, please change username")
             else:
-                signupController.saveToDb(self.entry4.get(), self.entry5.get(), self.combo6.get())
+                signupController.saveToDb(account)
                 messagebox.showinfo(title='Registry', message='Successfull registry')
                 self.controller.show_frame('LogIn')
